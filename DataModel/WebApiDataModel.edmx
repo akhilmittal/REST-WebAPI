@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="WebApiDbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="WebApiDbModelStoreContainer">
+          <EntitySet Name="Products" EntityType="WebApiDbModel.Store.Products" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Tokens" EntityType="WebApiDbModel.Store.Tokens" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="User" EntityType="WebApiDbModel.Store.User" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Tokens_User" Association="WebApiDbModel.Store.FK_Tokens_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Tokens" EntitySet="Tokens" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Tokens">
+          <Key>
+            <PropertyRef Name="TokenId" />
+          </Key>
+          <Property Name="TokenId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="AuthToken" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="IssuedOn" Type="datetime" Nullable="false" />
+          <Property Name="ExpiresOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Tokens_User">
+          <End Role="User" Type="WebApiDbModel.Store.User" Multiplicity="1" />
+          <End Role="Tokens" Type="WebApiDbModel.Store.Tokens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Tokens">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WebApiDbModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="WebApiDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Products" EntityType="WebApiDbModel.Product" />
+          <EntitySet Name="Tokens" EntityType="WebApiDbModel.Token" />
+          <EntitySet Name="Users" EntityType="WebApiDbModel.User" />
+          <AssociationSet Name="FK_Tokens_User" Association="WebApiDbModel.FK_Tokens_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Tokens" EntitySet="Tokens" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Token">
+          <Key>
+            <PropertyRef Name="TokenId" />
+          </Key>
+          <Property Name="TokenId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="AuthToken" Type="String" Nullable="false" MaxLength="250" Unicode="true" FixedLength="false" />
+          <Property Name="IssuedOn" Type="DateTime" Nullable="false" />
+          <Property Name="ExpiresOn" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="WebApiDbModel.FK_Tokens_User" FromRole="Tokens" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Tokens" Relationship="WebApiDbModel.FK_Tokens_User" FromRole="User" ToRole="Tokens" />
+        </EntityType>
+        <Association Name="FK_Tokens_User">
+          <End Role="User" Type="WebApiDbModel.User" Multiplicity="1" />
+          <End Role="Tokens" Type="WebApiDbModel.Token" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Tokens">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WebApiDbModelStoreContainer" CdmEntityContainer="WebApiDbEntities">
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="WebApiDbModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tokens">
+            <EntityTypeMapping TypeName="WebApiDbModel.Token">
+              <MappingFragment StoreEntitySet="Tokens">
+                <ScalarProperty Name="TokenId" ColumnName="TokenId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="AuthToken" ColumnName="AuthToken" />
+                <ScalarProperty Name="IssuedOn" ColumnName="IssuedOn" />
+                <ScalarProperty Name="ExpiresOn" ColumnName="ExpiresOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="WebApiDbModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="WebApiDataModel">
+        <EntityTypeShape EntityType="WebApiDbModel.Product" Width="1.5" PointX="0.75" PointY="4.75" Height="1.3897543044885001" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebApiDbModel.Token" Width="1.5" PointX="3" PointY="0.875" Height="2.1480577480792995" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebApiDbModel.User" Width="1.5" PointX="0.75" PointY="1" Height="1.9584818871816" IsExpanded="true" />
+        <AssociationConnector Association="WebApiDbModel.FK_Tokens_User" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="1.9792409435908" />
+          <ConnectorPoint PointX="3" PointY="1.9792409435908" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

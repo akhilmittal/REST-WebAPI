@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WebApiDbModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="WebApiDbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Products" EntityType="WebApiDbModel.Product" />
+    <EntitySet Name="Tokens" EntityType="WebApiDbModel.Token" />
+    <EntitySet Name="Users" EntityType="WebApiDbModel.User" />
+    <AssociationSet Name="FK_Tokens_User" Association="WebApiDbModel.FK_Tokens_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Tokens" EntitySet="Tokens" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ProductId" />
+    </Key>
+    <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Token">
+    <Key>
+      <PropertyRef Name="TokenId" />
+    </Key>
+    <Property Name="TokenId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="AuthToken" Type="String" Nullable="false" MaxLength="250" Unicode="true" FixedLength="false" />
+    <Property Name="IssuedOn" Type="DateTime" Nullable="false" />
+    <Property Name="ExpiresOn" Type="DateTime" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="WebApiDbModel.FK_Tokens_User" FromRole="Tokens" ToRole="User" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Tokens" Relationship="WebApiDbModel.FK_Tokens_User" FromRole="User" ToRole="Tokens" />
+  </EntityType>
+  <Association Name="FK_Tokens_User">
+    <End Role="User" Type="WebApiDbModel.User" Multiplicity="1" />
+    <End Role="Tokens" Type="WebApiDbModel.Token" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Tokens">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

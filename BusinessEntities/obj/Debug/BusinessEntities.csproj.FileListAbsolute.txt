@@ -1,0 +1,4 @@
+D:\AkhilMittal\Articles and Blogs\WebAPI\1\sourcecode\WebApi\BusinessEntities\bin\Debug\BusinessEntities.dll
+D:\AkhilMittal\Articles and Blogs\WebAPI\1\sourcecode\WebApi\BusinessEntities\bin\Debug\BusinessEntities.pdb
+D:\AkhilMittal\Articles and Blogs\WebAPI\1\sourcecode\WebApi\BusinessEntities\obj\Debug\BusinessEntities.dll
+D:\AkhilMittal\Articles and Blogs\WebAPI\1\sourcecode\WebApi\BusinessEntities\obj\Debug\BusinessEntities.pdb

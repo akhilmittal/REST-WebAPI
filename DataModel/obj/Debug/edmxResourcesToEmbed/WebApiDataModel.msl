@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="WebApiDbModelStoreContainer" CdmEntityContainer="WebApiDbEntities">
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="WebApiDbModel.Product">
+        <MappingFragment StoreEntitySet="Products">
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tokens">
+      <EntityTypeMapping TypeName="WebApiDbModel.Token">
+        <MappingFragment StoreEntitySet="Tokens">
+          <ScalarProperty Name="TokenId" ColumnName="TokenId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="AuthToken" ColumnName="AuthToken" />
+          <ScalarProperty Name="IssuedOn" ColumnName="IssuedOn" />
+          <ScalarProperty Name="ExpiresOn" ColumnName="ExpiresOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="WebApiDbModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
